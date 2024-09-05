@@ -15,4 +15,5 @@ public:
 	void menu();
 	Movie addMovie();
 	Room enableRoom();
+	Schedule movieSchedule();
 };

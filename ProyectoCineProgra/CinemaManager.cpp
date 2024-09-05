@@ -35,6 +35,20 @@ void CinemaManager::menu()
 		cout << "[1] Movies " << endl;
 		cout << "[2] Rooms " << endl;
 		cout << "[3] Schedule " << endl;
+		cout << "Choose an option to continue: ";
+		cin >> opc;
+		if (opc == 1)
+		{
+			addMovie();
+		}
+		if (opc == 2)
+		{
+			enableRoom();
+		}
+		if (opc == 3)
+		{
+			movieSchedule();
+		}
 	}
 
 	if (opc == 3)
@@ -89,11 +103,11 @@ Room CinemaManager::enableRoom()
 
 	Room room;
 
-	cout << " Enter the number of the room";
+	cout << " Enter the number of the room: ";
 	cin >> roomNumber;
 	room.setRoomNumber(roomNumber);
 
-	cout << " Enter the seats of the room";
+	cout << " Enter the seats of the room: ";
 	for (int i = 0; i < 10; i++)
 	{
 		for (int j = 0; j < 10; j++)
@@ -103,8 +117,32 @@ Room CinemaManager::enableRoom()
 	}
 	room.setRoomSeats(roomSeats);
 
-	cout << " Enter the price of the room";
+	cout << " Enter the price of the room: ";
 	cin >> price;
 	room.setPrice(price);
 
+	return room;
+}
+
+Schedule CinemaManager::movieSchedule()
+{
+	string date;
+	int startHour = 0;
+	int endHour = 0;
+
+	Schedule schedule;
+
+	cout << " Enter the date of the movie: ";
+	cin >> date;
+	schedule.setDate(date);
+
+	cout << " Enter what time the movie starts: ";
+	cin >> startHour;
+	schedule.setStartHour(startHour);
+
+	cout << " Enter what time the movie ends: ";
+	cin >> endHour;
+	schedule.setEndHour(endHour);
+
+	return schedule;
 }
