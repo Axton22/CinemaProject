@@ -12,8 +12,6 @@ private:
 	string country;
 	int reviews = 0;
 
-
-
 public:
 	Movie() {};
 	Movie(string _name, int _year, int _time, string _country, int _reviews);

@@ -1,65 +1,100 @@
 #include "CinemaManager.h";
 using namespace std;
 
+CinemaManager::CinemaManager()
+{
+	movieSet = false;
+	roomSet = false;
+	scheduleSet = false;
+	index = 0;
+
+	movieSessions = new CinemaManager[maxSessions];
+	for (int i = 0; i < maxSessions; ++i) {
+		movieSessions[i] = CinemaManager();
+	}
+}
+
+CinemaManager::CinemaManager(Movie _movie, Room _room, Schedule _schedule)
+{
+	this->movie = _movie;
+	this->room = _room;
+	this->schedule = _schedule;
+}
+
+CinemaManager::~CinemaManager()
+{
+	delete[] movieSessions;
+}
+
 void CinemaManager::menu()
 {
 	int opc = 0;
-	cout << "                                               Welcome to NUEVA CINEMA SA " << endl << endl;
-	cout << "[1] File " << endl;
-	cout << "[2] Maintenance " << endl;
-	cout << "[3] Booking " << endl;
-	cout << "[4] Sale " << endl;
-	cout << "Choose an option to continue: ";
-	cin >> opc;
-
-	if (opc == 1)
-	{
-		int opc = 0;
-		cout << "[1] About " << endl;
-		cout << "[2] Exit " << endl;
+	do {
+		cout << "                                               Welcome to NUEVA CINEMA SA " << endl << endl;
+		cout << "[1] File " << endl;
+		cout << "[2] Maintenance " << endl;
+		cout << "[3] Booking " << endl;
+		cout << "[4] Sale " << endl;
+		cout << "[5] Exit " << endl;
 		cout << "Choose an option to continue: ";
 		cin >> opc;
 
 		if (opc == 1)
 		{
-			cout << " I am Axton Urbina Perez, the owner of the system and a former student at Harvard University. A few weeks ago, I heard the announcement, and it caught my attention, so I decided to participate in the draw.";
-		}
-		if (opc == 2)
-		{
-			exit;
-		}
-	}
+			int opc = 0;
+			cout << "[1] About " << endl;
+			cout << "[2] Exit " << endl;
+			cout << "Choose an option to continue: ";
+			cin >> opc;
 
-	if (opc == 2)
-	{
-		cout << "[1] Movies " << endl;
-		cout << "[2] Rooms " << endl;
-		cout << "[3] Schedule " << endl;
-		cout << "Choose an option to continue: ";
-		cin >> opc;
-		if (opc == 1)
-		{
-			addMovie();
+			if (opc == 1)
+			{
+				cout << " I am Axton Urbina Perez, the owner of the system and a former student at Harvard University. A few weeks ago, I heard the announcement, and it caught my attention, so I decided to participate in the draw.";
+			}
+			if (opc == 2)
+			{
+				exit;
+			}
 		}
+
 		if (opc == 2)
 		{
-			enableRoom();
+			do {
+				cout << "[1] Movies " << endl;
+				cout << "[2] Rooms " << endl;
+				cout << "[3] Schedule " << endl;
+				cout << "[4] Exit" << endl;
+				cout << "Choose an option to continue: ";
+				cin >> opc;
+
+				if (opc == 1)
+				{
+					addMovie();
+					movieSet = true;
+				}
+				else if (opc == 2)
+				{
+					enableRoom();
+					roomSet = true;
+				}
+				else if (opc == 3)
+				{
+					movieSchedule();
+					scheduleSet = true;
+				}
+			} while (opc != 4);
 		}
+
 		if (opc == 3)
 		{
-			movieSchedule();
+			cout << "[1] Movies " << endl;
 		}
-	}
 
-	if (opc == 3)
-	{
-		cout << "[1] Movies " << endl;
-	}
-
-	if (opc == 4)
-	{
-		cout << "[1] Movies " << endl;
-	}
+		if (opc == 4)
+		{
+			cout << "[1] Movies " << endl;
+		}
+	} while (opc != 5);
 }
 
 Movie CinemaManager::addMovie()
@@ -98,7 +133,7 @@ Movie CinemaManager::addMovie()
 Room CinemaManager::enableRoom()
 {
 	int roomNumber = 0;
-	int roomSeats[10][10];
+	int seats = 0;
 	float price = 0;
 
 	Room room;
@@ -107,15 +142,20 @@ Room CinemaManager::enableRoom()
 	cin >> roomNumber;
 	room.setRoomNumber(roomNumber);
 
-	cout << " Enter the seats of the room: ";
-	for (int i = 0; i < 10; i++)
+	cout << " Enter the number of seats in the room: ";
+	cin >> seats;
+
+	int** roomSeats = new int*[seats];
+	for (int i = 0; i < seats; i++)
 	{
-		for (int j = 0; j < 10; j++)
-		{
-			cin >> roomSeats[i][j];
-		}
+		roomSeats[i] = new int[seats];
 	}
-	room.setRoomSeats(roomSeats);
+	room.setRoomSeats(roomSeats, seats);
+
+	for (int i = 0; i < seats; i++) {
+		delete[] roomSeats[i];
+	}
+	delete[] roomSeats;
 
 	cout << " Enter the price of the room: ";
 	cin >> price;
@@ -146,3 +186,53 @@ Schedule CinemaManager::movieSchedule()
 
 	return schedule;
 }
+
+
+void CinemaManager::setMovieSession(Movie _movie, Room _room, Schedule _schedule)
+{
+	this->movie = _movie;
+	this->room = _room;
+	this->schedule = _schedule;
+}
+
+Movie CinemaManager::getMovieOfTheSession()
+{
+	return movie;
+}
+
+Room CinemaManager::getRoomOfTheSession()
+{
+	return room;
+}
+
+Schedule CinemaManager::getScheduleOfTheSession()
+{
+	return schedule;
+}
+
+CinemaManager CinemaManager::movieSessionKeeper()
+{
+
+	if (movieSet && roomSet && scheduleSet == true) {
+
+
+		if (index < 5)
+		{
+			CinemaManager ses;
+
+			Movie movie = ses.addMovie();
+
+			Room room = ses.enableRoom();
+
+			Schedule schedule = ses.movieSchedule();
+
+			movieSessions[index].movie = movie;
+			movieSessions[index].room = room;
+			movieSessions[index].schedule = schedule;
+			return movieSessions[index++];
+		}
+	}
+	return CinemaManager();
+}
+
+
