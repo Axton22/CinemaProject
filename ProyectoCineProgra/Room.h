@@ -5,7 +5,7 @@ private:
 	int roomNumber;
 	int **roomSeats;
 	float price;
-	int size = 0;
+	int size;
 
 public:
 	Room();
@@ -18,7 +18,6 @@ public:
 
 	void setRoomSeats(int** _roomSeats, int _size);
 	int** getRoomSeats();
-	int getSize();
 
 	void setPrice(float _price);
 	float getPrice();

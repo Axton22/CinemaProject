@@ -19,12 +19,13 @@ Room::Room(int _roomNumber, float _price, int _size)
 
 Room::~Room()
 {
-		if (roomSeats != nullptr) {
-			for (int i = 0; i < size; i++) {
-				delete[] roomSeats[i];
-			}
-			delete[] roomSeats;
+	if (roomSeats != nullptr) {
+		for (int i = 0; i < size; i++) {
+			delete[] roomSeats[i];
 		}
+		delete[] roomSeats;
+		roomSeats = nullptr;
+	}
 }
 
 void Room::setRoomNumber(int _roomNumber)
@@ -38,30 +39,14 @@ int Room::getRoomNumber()
 }
 
 
-void Room::setRoomSeats(int** _roomSeats, int _size)
-{
-	if (roomSeats != nullptr) {
-		for (int i = 0; i < size; i++) {
-			delete[] roomSeats[i];
-		}
-		delete[] roomSeats;
-	}
-
-	int numSeats = size;
-	roomSeats = new int* [numSeats];
-	for (int i = 0; i < numSeats; i++) {
-		roomSeats[i] = new int[numSeats];
-	}
+void Room::setRoomSeats(int** seats, int numSeats) {
+	roomSeats = seats;
+	size = numSeats;
 }
 
 int** Room::getRoomSeats()
 {
 	return roomSeats;
-}
-
-int Room::getSize()
-{
-	return size;
 }
 
 void Room::setPrice(float _price)

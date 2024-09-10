@@ -5,6 +5,8 @@
 using namespace std;
 
 int main() {
-	CinemaManager cine;
-	cine.menu();
+	CinemaManager showMenu;
+	showMenu.menu();
+
+	return 0;
 }
