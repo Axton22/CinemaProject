@@ -8,10 +8,21 @@ CinemaManager::CinemaManager()
 	movieSet = false;
 	roomSet = false;
 	scheduleSet = false;
+	numberOfBooking = 0;
 }
 
 CinemaManager::~CinemaManager()
 {
+}
+
+void CinemaManager::setNumberOfBooking(int _numberOfBooking)
+{
+	this->numberOfBooking = _numberOfBooking;
+}
+
+int CinemaManager::getNumberOfBooking()
+{
+	return numberOfBooking;
 }
 
 
@@ -53,7 +64,7 @@ void CinemaManager::menu()
 				cout << "[2] Rooms " << endl;
 				cout << "[3] Schedule " << endl;
 				cout << "[4] Save and return " << endl;
-				cout << "[5] Exit " << endl;
+				cout << "[0] Exit " << endl;
 				cout << "Choose an option to continue: ";
 				cin >> opc;
 
@@ -77,7 +88,7 @@ void CinemaManager::menu()
 					movieSessionKeeper();
 					exit;
 				}
-			} while (opc != 5);
+			} while (opc != 0);
 		}
 
 		else if (opc == 3)
@@ -88,7 +99,7 @@ void CinemaManager::menu()
 				cin >> opc;
 				if (opc == 1)
 				{
-					showMoviesAvailable();
+					bookingManager();
 				}
 			} while (opc != 2);
 		}
@@ -143,23 +154,13 @@ Room CinemaManager::enableRoom()
 	cin >> roomNumber;
 	currentRoom.setRoomNumber(roomNumber);
 
-	cout << " Enter the number of seats in the room: ";
-	cin >> seats;
-
-	int** roomSeats = new int* [seats];
-	for (int i = 0; i < seats; i++)
-	{
-		roomSeats[i] = new int[seats];
-	}
-	for (int i = 0; i < seats; i++)
-	{
-		for (int j = 0; j < seats; j++)
-		{
-			cin >> roomSeats[i][j];
+	int value = 1;
+	for (int i = 0; i < currentRoom.getSize(); ++i) {
+		for (int j = 0; j < currentRoom.getSize(); ++j) {
+			currentRoom.setSeat(i, j, value++);
 		}
 	}
-	currentRoom.setRoomSeats(roomSeats, seats);
-
+	
 	cout << " Enter the price of the room: ";
 	cin >> price;
 	currentRoom.setPrice(price);
@@ -191,24 +192,92 @@ Schedule CinemaManager::movieSchedule()
 void CinemaManager::movieSessionKeeper()
 {
 	if (movieSet && roomSet && scheduleSet) {
-
-		if (index < 5)
-		{
-			MovieSessions session(currentMovie, currentRoom, currentSchedule);
-			movieSessions[index] = session;
-			index++;
-		}
+			if (index < 5)
+			{
+				MovieSessions session(currentMovie, currentRoom, currentSchedule);
+				movieSessions[index] = session;
+				index++;
+			}
 	}
 	movieSet = false;
 	roomSet = false;
 	scheduleSet = false;
 }
 
-void CinemaManager::showMoviesAvailable()
+void CinemaManager::bookingManager()
 {
+	cout << "Movies Available" << endl;
+
 	for (int i = 0; i < index; i++)
 	{
 		Movie movie = movieSessions[i].getMovie();
-		cout << "Movie name: " << movie.getName() << endl;
+		cout << "[" << i + 1 << "] " << movie.getName() << endl;
+	}
+
+	int movieSelection;
+	cout << "Choose the movie that you want to reserve: ";
+	cin >> movieSelection;
+
+	movieSelection -= 1;
+
+	if (movieSelection >= 0 && movieSelection < index)
+	{
+		numberOfBooking++;
+		setNumberOfBooking(numberOfBooking);
+		Room& selectedRoom = movieSessions[movieSelection].getRoom();
+		cout << "Room: " << selectedRoom.getRoomNumber() << endl;
+
+		Schedule selectedSchedule = movieSessions[movieSelection].getSchedule();
+		cout << "Date of the movie: " << selectedSchedule.getDate() << endl;
+		cout << "Starts at: " << selectedSchedule.getStartHour() << endl;
+		cout << "Ends at: " << selectedSchedule.getEndHour() << endl;
+
+		Seat seatSelected;
+		int seatNumber = 0;
+		cout << "Seats available: " << endl;
+		showRoomSeats(selectedRoom);
+		cout << "Choose the seat that you want: " << endl;
+		cin >> seatNumber;
+		seatSelected.seatsManager(selectedRoom, seatNumber);
+
+		movieSessions[movieSelection].setRoom(selectedRoom);
+
+		Movie selectedMovie = movieSessions[movieSelection].getMovie();
+		if (seatSelected.getIsAvailable() == true)
+		{
+			voucher(selectedMovie, selectedRoom, selectedSchedule);
+		}
 	}
 }
+
+void CinemaManager::showRoomSeats(const Room room)
+{
+	cout << "\nIs reserve:  0" << endl;
+	cout << "Is sold: -1\n" << endl;
+
+	for (int i = 0; i < room.getSize(); ++i) {
+		for (int j = 0; j < room.getSize(); ++j) {
+			cout << room.getSeats(i, j) << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
+void CinemaManager::voucher(Movie movie, Room room, Schedule schedule)
+{
+			cout << "==========================================" << endl;
+			cout << "                CINEMA VOUCHER             " << endl;
+			cout << "==========================================" << endl;
+
+			cout << "Voucher Number: " << getNumberOfBooking() << endl;
+
+			cout << "Movie Title: " << movie.getName() << endl;
+
+			cout << "Movie date: " << schedule.getDate() << endl;
+
+			cout << "Movie starts at: " << schedule.getStartHour() << endl;
+
+			cout << "Price: " << room.getPrice() << endl;
+}
+

@@ -6,6 +6,7 @@
 #include "Room.h"
 #include "Schedule.h"
 #include "MovieSessions.h"
+#include "Seat.h"
 
 class CinemaManager {
 private:
@@ -15,6 +16,7 @@ private:
 	bool movieSet;
 	bool roomSet;
 	bool scheduleSet;
+	int numberOfBooking;
 
 	Movie currentMovie;   
 	Room currentRoom;  
@@ -24,11 +26,15 @@ public:
 	CinemaManager();
 	~CinemaManager();
 
-	void movieSessionKeeper();
-	void showMoviesAvailable();
+	void setNumberOfBooking(int _numberOfBooking);
+	int getNumberOfBooking();
 
 	void menu();
 	Movie addMovie();
 	Room enableRoom();
 	Schedule movieSchedule();
+	void movieSessionKeeper();
+	void bookingManager();
+	void showRoomSeats(const Room room);
+	void voucher(Movie movie, Room room, Schedule schedule);
 };

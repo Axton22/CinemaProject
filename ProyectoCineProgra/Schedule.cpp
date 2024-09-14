@@ -29,7 +29,7 @@ void Schedule::setStartHour(int _startHour)
 	this->startHour = _startHour;
 }
 
-int Schedule::getStartour()
+int Schedule::getStartHour()
 {
 	return startHour;
 }

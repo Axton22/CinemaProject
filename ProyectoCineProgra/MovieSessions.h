@@ -15,10 +15,10 @@ public:
 	MovieSessions(Movie _movie, Room _room, Schedule _schedule);
 
 	void setMovie(Movie _movie);
-	void setRoom(Room _room);
+	void setRoom(const Room& _room);
 	void setSchedule(Schedule _schedule);
 
-	Movie getMovie() const;
-	Room getRoom() const;
+	Movie getMovie();
+	Room& getRoom();
 	Schedule getSchedule() const;
 };

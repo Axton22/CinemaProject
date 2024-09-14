@@ -5,27 +5,25 @@ Room::Room()
 {
 	price = 0;
 	roomNumber = 0;
-	roomSeats = nullptr;
-	size = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		for (int j = 0; j < size; j++)
+		{
+			roomSeats[i][j] = 0;
+		}
+	}
+
 }
 
-Room::Room(int _roomNumber, float _price, int _size)
+Room::Room(int _roomNumber, int _price)
 {
 	this->price = _price;
 	this->roomNumber = _roomNumber;
-	this->roomSeats = nullptr;
-	this->size = _size;
 }
 
 Room::~Room()
 {
-	if (roomSeats != nullptr) {
-		for (int i = 0; i < size; i++) {
-			delete[] roomSeats[i];
-		}
-		delete[] roomSeats;
-		roomSeats = nullptr;
-	}
 }
 
 void Room::setRoomNumber(int _roomNumber)
@@ -38,23 +36,31 @@ int Room::getRoomNumber()
 	return roomNumber;
 }
 
-
-void Room::setRoomSeats(int** seats, int numSeats) {
-	roomSeats = seats;
-	size = numSeats;
-}
-
-int** Room::getRoomSeats()
+int Room::getSize()
 {
-	return roomSeats;
+	return size;
 }
 
-void Room::setPrice(float _price)
+void Room::setSeat(int row, int col, int value)
+{
+	if (row >= 0 && row < size && col >= 0 && col < size) {
+		roomSeats[row][col] = value;
+	}
+}
+
+int Room::getSeats(int row, int col) const
+{
+	if (row >= 0 && row < size && col >= 0 && col < size) {
+		return roomSeats[row][col];
+	}
+}
+
+void Room::setPrice(int _price)
 {
 	this->price = _price;
 }
 
-float Room::getPrice()
+int Room::getPrice() const
 {
 	return price;
 }

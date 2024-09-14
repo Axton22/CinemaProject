@@ -17,7 +17,7 @@ public:
 	string getDate();
 
 	void setStartHour(int _strHour);
-	int getStartour();
+	int getStartHour();
 
 	void setEndHour(int _endHo);
 	int getEndHour();

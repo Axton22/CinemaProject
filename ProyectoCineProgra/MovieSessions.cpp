@@ -12,7 +12,7 @@ void MovieSessions::setMovie(Movie _movie)
 	this->movie = _movie;
 }
 
-void MovieSessions::setRoom(Room _room)
+void MovieSessions::setRoom(const Room& _room)
 {
 	this->room = _room;
 }
@@ -22,12 +22,12 @@ void MovieSessions::setSchedule(Schedule _schedule)
 	this->schedule = _schedule;
 }
 
-Movie MovieSessions::getMovie() const
+Movie MovieSessions::getMovie() 
 {
 	return movie;
 }
 
-Room MovieSessions::getRoom() const
+Room& MovieSessions::getRoom() 
 {
 	return room;
 }

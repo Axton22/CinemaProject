@@ -8,4 +8,6 @@ private:
 public:
 	Sale(){}
 	Sale(int _customerId, int _customerCardNumber);
+
+
 };
