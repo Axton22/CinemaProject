@@ -1,5 +1,4 @@
 #include "Room.h"
-using namespace std;
 
 Room::Room()
 {
@@ -10,7 +9,7 @@ Room::Room()
 	{
 		for (int j = 0; j < size; j++)
 		{
-			roomSeats[i][j] = 0;
+			roomSeats[i][j] = "";
 		}
 	}
 
@@ -41,14 +40,14 @@ int Room::getSize()
 	return size;
 }
 
-void Room::setSeat(int row, int col, int value)
+void Room::setSeat(int row, int col, string _seatID)
 {
 	if (row >= 0 && row < size && col >= 0 && col < size) {
-		roomSeats[row][col] = value;
+		roomSeats[row][col] = _seatID;
 	}
 }
 
-int Room::getSeats(int row, int col) const
+string Room::getSeats(int row, int col) const
 {
 	if (row >= 0 && row < size && col >= 0 && col < size) {
 		return roomSeats[row][col];
@@ -63,4 +62,14 @@ void Room::setPrice(int _price)
 int Room::getPrice() const
 {
 	return price;
+}
+
+void Room::setIsAvailable(bool _isAvailable)
+{
+	this->isAvailable = _isAvailable;
+}
+
+bool Room::getIsAvailable()
+{
+	return isAvailable;
 }

@@ -127,24 +127,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Booking.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Movie.cpp" />
     <ClCompile Include="MovieSessions.cpp" />
     <ClCompile Include="Room.cpp" />
-    <ClCompile Include="Sale.cpp" />
     <ClCompile Include="Schedule.cpp" />
-    <ClCompile Include="Seat.cpp" />
     <ClCompile Include="CinemaManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MovieSessions.h" />
     <ClInclude Include="Movie.h" />
-    <ClInclude Include="Booking.h" />
     <ClInclude Include="Room.h" />
-    <ClInclude Include="Sale.h" />
     <ClInclude Include="Schedule.h" />
-    <ClInclude Include="Seat.h" />
     <ClInclude Include="CinemaManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
