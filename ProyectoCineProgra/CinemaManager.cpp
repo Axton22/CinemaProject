@@ -132,6 +132,7 @@ void CinemaManager::menu()
 				if (opc == 1)
 				{
 					bookingManager();
+						break;
 				}
 			} while (opc != 2);
 		}
@@ -139,12 +140,13 @@ void CinemaManager::menu()
 		else if (opc == 4)
 		{
 			do {
-				cout << "[1] Movies " << endl;
+				cout << "[1] Pay your ticket " << endl;
 				cout << "[2] Exit " << endl;
 				cin >> opc;
 				if (opc == 1)
 				{
 					saleManager();
+					break;
 				}
 			} while (opc != 2);
 		}
@@ -188,7 +190,7 @@ Room CinemaManager::enableRoom()
 {
 	int roomNumber = 0;
 	int seats = 0;
-	float price = 0;
+	int price = 0;
 
 	cout << " Enter the number of the room: ";
 	cin >> roomNumber;
@@ -372,7 +374,7 @@ void CinemaManager::voucher(Movie movie, Room room, Schedule schedule)
 			
 			cout << "Movie date: " << schedule.getDate() << endl;
 
-			cout << "Movie starts at: " << schedule.getStartHour() << endl;
+			cout << "Movie starts at: " << schedule.getStartHour() << ":" << schedule.getStartMinutes() << endl;
 
 			cout << "Price: " << getTotalPrice() << endl;
 
@@ -408,7 +410,7 @@ void CinemaManager::saleManager()
 				movieSessions[i].setRoom(room);
 		}
 
-		cout << "\nYour purchase is successful, Thank you and enjoy the movie!!" << endl;
+		cout << "\nYour purchase is successful, Thank you and enjoy the movie!!" << endl << endl;
 		setSaleSuccessful(true);
 	}
 	setSaleSuccessful(false);
